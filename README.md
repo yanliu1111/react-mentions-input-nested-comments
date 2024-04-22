@@ -32,6 +32,8 @@ ps: When I create react app, before running npm run start, I changed the script 
 }
 ```
 
+4. Using [React Mentions](https://github.com/signavio/react-mentions) library, I built a mention feature template, check 👉 [HERE](https://github.com/yanliu1111/react-mentions-template).
+
 ## Demo
 
 <video width="320" src="https://github.com/yanliu1111/react-mentions-input-nested-comments/assets/105611260/b4fd582b-183f-455e-adcd-5f4e3dc2972c"></video>
