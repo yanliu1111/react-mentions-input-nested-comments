@@ -1,14 +1,33 @@
+import CommentForm from './CommentForm';
 import { Mention } from 'react-mentions';
 import React from 'react';
 import mentionStyle from '../mentionStyle';
 
-const Comment = ({ comment, replies, currentUserId, deleteComment }) => {
+const Comment = ({
+  comment,
+  replies,
+  currentUserId,
+  deleteComment,
+  addComment,
+  activeComment,
+  setActiveComment,
+  parentId = null, // root comments don't have parentId
+}) => {
   const fiveMinutes = 5 * 60 * 1000;
   const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
   const canReply = Boolean(currentUserId);
   const canEdit = currentUserId === comment.userId && !timePassed; // if the current user is the author of the comment and the comment is not older than 5 minutes, allow editing
   const canDelete = currentUserId === comment.userId;
   const createAt = new Date(comment.createdAt).toLocaleDateString();
+  const isReplying =
+    activeComment &&
+    activeComment.id === comment.id &&
+    activeComment.type === 'replying';
+  const replyTo = { id: parentId ? parentId : comment.id };
+  const isEditing =
+    activeComment &&
+    activeComment.id === comment.id &&
+    activeComment.type === 'editing';
   return (
     <div className='comment'>
       <div className='comment-image-container'>
@@ -21,8 +40,26 @@ const Comment = ({ comment, replies, currentUserId, deleteComment }) => {
         </div>
         <div className='comment-text'> {comment.body}</div>
         <div className='comment-actions'>
-          {canReply && <div className='comment-action'>Reply</div>}
-          {canEdit && <div className='comment-action'>Edit</div>}
+          {canReply && (
+            <div
+              className='comment-action'
+              onClick={() => {
+                setActiveComment({ id: comment.id, type: 'replying' });
+              }}
+            >
+              Reply
+            </div>
+          )}
+          {canEdit && (
+            <div
+              className='comment-action'
+              onClick={() => {
+                setActiveComment({ id: comment.id, type: 'editing' });
+              }}
+            >
+              Edit
+            </div>
+          )}
           {canDelete && (
             <div
               className='comment-action'
@@ -32,6 +69,13 @@ const Comment = ({ comment, replies, currentUserId, deleteComment }) => {
             </div>
           )}
         </div>
+        {isReplying && (
+          <CommentForm
+            submitLable='Reply'
+            handleSubmit={(text) => addComment(text, replyTo.id)}
+          />
+        )}
+
         {replies.length > 0 && (
           <div className='replies'>
             {replies.map((reply) => (
@@ -41,6 +85,10 @@ const Comment = ({ comment, replies, currentUserId, deleteComment }) => {
                   replies={[]}
                   currentUserId={currentUserId}
                   deleteComment={deleteComment}
+                  addComment={addComment}
+                  activeComment={activeComment}
+                  setActiveComment={setActiveComment}
+                  parentId={comment.id}
                 />{' '}
                 {/* replies={[]} because we say it is okay to not have replies for
                 comments */}

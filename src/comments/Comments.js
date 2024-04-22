@@ -31,6 +31,7 @@ const Comments = ({ currentUserId }) => {
     console.log('addComment', test, parentId);
     createCommentApi(test, parentId).then((newComment) => {
       setBackendComments([newComment, ...backendComments]);
+      setActiveComment(null);
     });
   };
   const updateComment = (text, commentId) => {
@@ -66,9 +67,8 @@ const Comments = ({ currentUserId }) => {
       <CommentForm submitLable='Write' handleSubmit={addComment} />
       <div className='comments-container'>
         {rootComments.map((rootComment) => (
-          <div>
+          <div key={rootComment.id}>
             <Comment
-              key={rootComment.id}
               comment={rootComment}
               replies={getReplies(rootComment.id)} // normally in small projects we would not have many comments, consider using lazy loading for replies if there are many comments.
               currentUserId={currentUserId} // comment-action will be shown only for the current user
@@ -76,6 +76,7 @@ const Comments = ({ currentUserId }) => {
               activeComment={activeComment}
               setActiveComment={setActiveComment}
               updateComment={updateComment}
+              addComment={addComment}
             />
             <Mention
               style={mentionStyle}
