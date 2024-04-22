@@ -40,8 +40,14 @@ const fetchUsers = (query, callback) => {
     callback(filteredUsers);
   }, 2000);
 };
-const CommentForm = ({ handleSubmit, submitLable }) => {
-  const [text, setText] = useState('');
+const CommentForm = ({
+  handleSubmit,
+  submitLable,
+  hasCancelButton = false,
+  initialText = '',
+  handCancel,
+}) => {
+  const [text, setText] = useState(initialText);
 
   const onAdd = (e) => {
     console.log('onAdd', e);
@@ -68,6 +74,15 @@ const CommentForm = ({ handleSubmit, submitLable }) => {
       <button className='comment-form-button' disabled={isTextareaDisabled}>
         {submitLable}
       </button>
+      {hasCancelButton && (
+        <button
+          type='button'
+          className='comment-form-button comment-form-cancel-button'
+          onClick={handCancel}
+        >
+          Cancel
+        </button>
+      )}
     </form>
   );
 };

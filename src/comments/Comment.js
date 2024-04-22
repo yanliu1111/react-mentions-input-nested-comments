@@ -11,6 +11,7 @@ const Comment = ({
   addComment,
   activeComment,
   setActiveComment,
+  updateComment,
   parentId = null, // root comments don't have parentId
 }) => {
   const fiveMinutes = 5 * 60 * 1000;
@@ -38,7 +39,16 @@ const Comment = ({
           <div className='comment-author'> {comment.username}</div>
           <div>{createAt}</div>
         </div>
-        <div className='comment-text'> {comment.body}</div>
+        {!isEditing && <div className='comment-text'> {comment.body}</div>}
+        {isEditing && (
+          <CommentForm
+            submitLable='Update'
+            hasCancelButton
+            initialText={comment.body}
+            handleSubmit={(text) => updateComment(text, comment.id)}
+            handleCancel={() => setActiveComment(null)}
+          />
+        )}
         <div className='comment-actions'>
           {canReply && (
             <div
@@ -88,6 +98,7 @@ const Comment = ({
                   addComment={addComment}
                   activeComment={activeComment}
                   setActiveComment={setActiveComment}
+                  updateComment={updateComment}
                   parentId={comment.id}
                 />{' '}
                 {/* replies={[]} because we say it is okay to not have replies for
