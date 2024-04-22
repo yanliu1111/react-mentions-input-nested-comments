@@ -1,13 +1,13 @@
-# React Mentions Template
+# React Mentions@ Input Nested Comments
 
-Purpose of this template: I start researching how to build mentions feature in comments section, and learn `react-mentions` library. This is the simple template to start using mentions feature in a comment input box.
+Purpose of this template: I start researching how to build nested comments with mentions feature.
 
 ## To run the template
 
 1. Clone the repository
 
 ```bash
-git clone https://github.com/yanliu1111/react-mentions-template.git
+git clone https://github.com/yanliu1111/react-mentions-input-nested-comments.git
 ```
 
 2. Install the dependencies
@@ -33,9 +33,3 @@ ps: When I create react app, before running npm run start, I changed the script 
 ```
 
 ## Demo
-
-<video width="320" src="https://github.com/yanliu1111/react-mentions-template/assets/105611260/4b133539-6409-4f5c-8b26-d1f9207ce9a2.mp4"></video>
-
-
-
-
